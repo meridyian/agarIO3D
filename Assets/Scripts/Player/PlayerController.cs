@@ -16,8 +16,9 @@ public class PlayerController : NetworkBehaviour
     private PlayerControl actions;
     private Vector2 moveInput;
     private Vector3 m_movement;
+    private Transform cameraMainTransform;
     
-    public float speed = 10f;
+    public float speed = 5f;
 
     void Awake()
     {
@@ -33,6 +34,7 @@ public class PlayerController : NetworkBehaviour
             Local = this;
             localCamera.transform.parent = null;
             actions.Player.Enable();
+            cameraMainTransform = Camera.main.transform;
         }
         else
         {
@@ -51,6 +53,17 @@ public class PlayerController : NetworkBehaviour
 
         moveInput = actions.Player.Move.ReadValue<Vector2>();
         m_movement.Set(moveInput.x, 0f, moveInput.y);
+        m_movement = cameraMainTransform.forward * m_movement.z + cameraMainTransform.right * m_movement.x;
+        m_movement.y = 0f;
         rb.AddForce(m_movement * speed);
+
+        if (moveInput != Vector2.zero)
+        {
+            float targetAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg 
+                + cameraMainTransform.eulerAngles.y;
+            Quaternion rotation = Quaternion.Euler(0f, targetAngle, 0f);
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Runner.DeltaTime * 4f);
+
+        }
     }
 }
