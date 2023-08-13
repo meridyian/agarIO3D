@@ -18,7 +18,7 @@ public class PlayerSpawner : SimulationBehaviour, ISpawned
     {
         if (player == Runner.LocalPlayer)
         {
-            Runner.Spawn(_playerPrefab, Utils.GetRandomSpawnPosition(), Quaternion.identity, player);
+            Runner.Spawn(_playerPrefab, new Vector3(0,1,0), Quaternion.identity, player);
         }
     }
 }

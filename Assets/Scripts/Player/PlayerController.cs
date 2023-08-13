@@ -10,14 +10,12 @@ using Random = UnityEngine.Random;
 public class PlayerController : NetworkBehaviour
 {
     private Rigidbody rb;
-    private float horizontalMove;
-    private float verticalMove;
-    private ushort size = 5;
-    private Vector2 inputDirection;
+    public float speed = 10f;
+    private Vector3 m_movement;
 
      void Awake()
     {
-        rb = GetComponentInChildren<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
     }
     
     public override void Spawned()
@@ -25,13 +23,7 @@ public class PlayerController : NetworkBehaviour
         //random vector 2 ile harekete başlamış 
         // o geçişi ekleyebilirsin
     }
-
-    void OnMove(InputValue movementValue)
-    {
-        Vector2 movementVector = movementValue.Get<Vector2>();
-        horizontalMove = movementVector.x;
-        verticalMove = movementVector.y;
-    }
+    
 
     public override void FixedUpdateNetwork()
     {
@@ -40,25 +32,11 @@ public class PlayerController : NetworkBehaviour
         {
             return;
         }
-        // keep the player within the playField
-        /*
-         * if(transform.position.x < Utils.GetPlayFieldSize()/2f * -1 + spriteRenderer.transform.localScale.x / 2f && movementDirection.x<0)
-         *  movementDirection.x =0;
-         *
-         * if(transform.position.x>Utils.GetPlayFieldSize()/2f - spriteRenderer.transform.localScale.x / 2f && movementDirection.x>0)
-         *  movementDirection.x =0;
-         *
-         * if(transform.position.y < Utils.GetPlayFieldSize()/2f * -1 + spriteRenderer.transform.localScale.y / 2f && movementDirection.y<0)
-         *  movementDirection.y =0;
-         *
-         * if(transform.position.y>Utils.GetPlayFieldSize()/2f - spriteRenderer.transform.localScale.y / 2f && movementDirection.y>0)
-         *  movementDirection.y =0;
-         */
 
-        Vector3 playerMovement = new Vector3(horizontalMove,0,verticalMove);
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
         
-        float movementSpeed = (size / Mathf.Pow(size, 1.1f)) * 2;
-        rb.AddForce(playerMovement*movementSpeed, ForceMode.Impulse);
-
+        m_movement.Set(horizontal, 0f, vertical);
+        rb.AddForce(m_movement * speed);
     }
 }
