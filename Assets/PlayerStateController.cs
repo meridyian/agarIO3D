@@ -66,5 +66,4 @@ public class PlayerStateController : NetworkBehaviour
         playerBody.transform.localScale = Vector3.one + Vector3.one * 100 * (size/65535f);
     }
     
-    
 }

@@ -5,9 +5,6 @@ using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Fusion;
-using UnityEditor.Experimental.GraphView;
-using Random = UnityEngine.Random;
-
 
 public class PlayerController : NetworkBehaviour
 {
@@ -39,7 +36,7 @@ public class PlayerController : NetworkBehaviour
             localCamera.transform.parent = null;
             actions.Player.Enable();
             cameraMainTransform = Camera.main.transform;
-            
+           
         }
         else
         {
@@ -93,6 +90,10 @@ public class PlayerController : NetworkBehaviour
 
         }
     }
+    
+    
+    
+    
 
 
     

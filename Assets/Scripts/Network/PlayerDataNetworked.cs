@@ -26,14 +26,20 @@ public class PlayerDataNetworked : NetworkBehaviour
     public override void Spawned()
     {
         _playernameEntryText.text = UserName;
+        RPC_JoinGame(_playernameEntryText.text);
+        
         if (Object.HasStateAuthority)
         {
             var userName = FindObjectOfType<PlayerData>().GetUserName();
             SendNameRpc(userName);
-            RPC_JoinGame(userName);
             // küçük u ile de denesene
             _playernameEntryText.text = UserName;
+           
         }
+        
+       
+        
+    
     }
 
     private static void UsernameChanged(Changed<PlayerDataNetworked> changed)
@@ -46,11 +52,14 @@ public class PlayerDataNetworked : NetworkBehaviour
     {
         UserName = name;
     }
-
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    [Rpc]
     void RPC_JoinGame(string name)
     {
-        Utils.DebugLog($"[RPC] rpc_JoinGame {name}");
-        UserName = name;
+        Debug.Log(name + "is joined");
     }
+
+    
+    
+
+   
 }
