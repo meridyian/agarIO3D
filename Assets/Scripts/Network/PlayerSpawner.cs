@@ -9,7 +9,12 @@ public class PlayerSpawner : SimulationBehaviour, ISpawned
     [SerializeField]  GameObject _playerPrefab;
 
     [SerializeField] private GameObject foodPrefab;
-    private bool isFoodSpawned;
+    private bool isFoodSpawned = false;
+    private bool isBotsSpawned = false;
+
+    private const int desiredNumberOfPlayers = 30;
+
+    private List<NetworkObject> botsList = new List<NetworkObject>();
 
 
      void SpawnFood()
@@ -22,6 +27,33 @@ public class PlayerSpawner : SimulationBehaviour, ISpawned
 
          isFoodSpawned = true;
      }
+
+     void SpawnBots()
+     {
+         // check how many players there are, if there isn't enough players and bots then spawn a new one
+         if (Runner.SessionInfo.PlayerCount < desiredNumberOfPlayers + botsList.Count)
+         {
+             int numberOfBotsToSpawn = desiredNumberOfPlayers - Runner.SessionInfo.PlayerCount - botsList.Count;
+             Utils.DebugLog($"Number of bots to spawm {numberOfBotsToSpawn}. Bot spawned count {botsList.Count}. Player count {Runner.SessionInfo.PlayerCount}");
+             for (int i = 0; i < numberOfBotsToSpawn; i++)
+             {
+                 NetworkObject spawnedAIPlayer = Runner.Spawn(_playerPrefab, Utils.GetRandomSpawnPosition(),
+                     Quaternion.identity, null, InitializeBotBeforeSpawn);
+                 
+                 botsList.Add(spawnedAIPlayer);
+             }
+         }
+     }
+
+     private void InitializeBotBeforeSpawn(NetworkRunner runner, NetworkObject networkObject)
+     {
+         networkObject.GetComponent<PlayerStateController>().isBot = true;
+     }
+     
+     
+     
+     
+     
 
     public void Spawned()
     {

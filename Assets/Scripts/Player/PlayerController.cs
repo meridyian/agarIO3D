@@ -5,6 +5,7 @@ using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Fusion;
+using UnityEditor.Experimental.GraphView;
 using Random = UnityEngine.Random;
 
 
@@ -19,10 +20,9 @@ public class PlayerController : NetworkBehaviour
     private Transform cameraMainTransform;
     public float speed = 5f;
 
+
     private GameObject playerBody;
     
-    [Networked(OnChanged = nameof(OnSizeChanged))]
-    private ushort size { get; set; }
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -39,8 +39,7 @@ public class PlayerController : NetworkBehaviour
             localCamera.transform.parent = null;
             actions.Player.Enable();
             cameraMainTransform = Camera.main.transform;
-            Reset();
-            UpdateSize();
+            
         }
         else
         {
@@ -95,19 +94,9 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    public void Reset()
-    {
-        size = 1;
-    }
 
-    void UpdateSize()
-    {
-        playerBody.transform.localScale = Vector3.one + Vector3.one * 100 * (size/65535f);
-    }
+    
+    
 
-    public static void OnSizeChanged(Changed<PlayerController> changed)
-    {
-        
-        changed.Behaviour.UpdateSize();
-    }
+    
 }

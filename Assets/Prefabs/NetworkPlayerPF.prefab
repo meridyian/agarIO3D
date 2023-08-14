@@ -444,6 +444,7 @@ GameObject:
   - component: {fileID: 7942517362851616129}
   - component: {fileID: 4657212889947280588}
   - component: {fileID: 2138251484654872538}
+  - component: {fileID: 7412724170516942467}
   m_Layer: 0
   m_Name: NetworkPlayerPF
   m_TagString: Untagged
@@ -495,6 +496,7 @@ MonoBehaviour:
   - {fileID: 1766837226971564570}
   - {fileID: 7942517362851616129}
   - {fileID: 2138251484654872538}
+  - {fileID: 7412724170516942467}
   SimulationBehaviours: []
 --- !u!114 &1766837226971564570
 MonoBehaviour:
@@ -600,6 +602,19 @@ MonoBehaviour:
     RotTeleportRadians: 1.5
   UseLegacySharedModeInterpolation: 0
   TargetInterpolationDelay: 0.03
+--- !u!114 &7412724170516942467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766837226971564568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4bdfe8b650dc9d4db6d467a65e6c594, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
 --- !u!1 &2202250325737912753
 GameObject:
   m_ObjectHideFlags: 0

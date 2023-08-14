@@ -30,6 +30,7 @@ public class PlayerDataNetworked : NetworkBehaviour
         {
             var userName = FindObjectOfType<PlayerData>().GetUserName();
             SendNameRpc(userName);
+            RPC_JoinGame(userName);
             // küçük u ile de denesene
             _playernameEntryText.text = UserName;
         }
@@ -43,6 +44,13 @@ public class PlayerDataNetworked : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void SendNameRpc(string name)
     {
+        UserName = name;
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    void RPC_JoinGame(string name)
+    {
+        Utils.DebugLog($"[RPC] rpc_JoinGame {name}");
         UserName = name;
     }
 }
