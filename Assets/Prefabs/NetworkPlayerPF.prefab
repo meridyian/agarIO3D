@@ -558,6 +558,22 @@ MonoBehaviour:
   _interpolationDataSource: 0
   localCamera: {fileID: 7417926921342991659}
   speed: 10
+  aiTargets: []
+  foodLayermask:
+    serializedVersion: 2
+    m_Bits: 2147483647
+  hitcolliders:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _playerStateController: {fileID: 7412724170516942467}
 --- !u!54 &4657212889947280588
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -615,6 +631,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
+  isBot: 0
 --- !u!1 &2202250325737912753
 GameObject:
   m_ObjectHideFlags: 0

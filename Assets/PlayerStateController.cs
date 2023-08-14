@@ -11,12 +11,15 @@ public class PlayerStateController : NetworkBehaviour
     private ushort size { get; set; }
     private GameObject playerBody;
     private Rigidbody rb;
-    public bool isBot; 
+    public bool isBot;
+    public static PlayerStateController Instance;
 
     void Awake()
     {
+        if (Instance == null)
+            Instance = this;
+        
         rb = GetComponent<Rigidbody>();
-
         playerBody = transform.GetChild(0).transform.gameObject;
 
     }
@@ -28,6 +31,8 @@ public class PlayerStateController : NetworkBehaviour
             Reset();
             UpdateSize();
         }
+
+       
     }
     
     public void Reset()

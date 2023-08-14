@@ -14,6 +14,7 @@ public class PlayerDataNetworked : NetworkBehaviour
 
     public Text _playernameEntryText;
     public static PlayerDataNetworked NetworkedDataInstance;
+    
 
     private void Awake()
     {
@@ -25,6 +26,8 @@ public class PlayerDataNetworked : NetworkBehaviour
 
     public override void Spawned()
     {
+
+
         _playernameEntryText.text = UserName;
         RPC_JoinGame(_playernameEntryText.text);
         
@@ -37,9 +40,6 @@ public class PlayerDataNetworked : NetworkBehaviour
            
         }
         
-       
-        
-    
     }
 
     private static void UsernameChanged(Changed<PlayerDataNetworked> changed)

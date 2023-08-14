@@ -17,6 +17,7 @@ public class PlayerSpawner : SimulationBehaviour, ISpawned
     private List<NetworkObject> botsList = new List<NetworkObject>();
 
 
+
      void SpawnFood()
      {
          for (int i = 0; i < 300; i++)
@@ -39,10 +40,14 @@ public class PlayerSpawner : SimulationBehaviour, ISpawned
              {
                  NetworkObject spawnedAIPlayer = Runner.Spawn(_playerPrefab, Utils.GetRandomSpawnPosition(),
                      Quaternion.identity, null, InitializeBotBeforeSpawn);
+
+                 //spawnedAIPlayer.BotJoinGame;
                  
                  botsList.Add(spawnedAIPlayer);
              }
          }
+
+         isBotsSpawned = true;
      }
 
      private void InitializeBotBeforeSpawn(NetworkRunner runner, NetworkObject networkObject)
@@ -66,6 +71,10 @@ public class PlayerSpawner : SimulationBehaviour, ISpawned
             if (!isFoodSpawned)
             {
                 SpawnFood();
+            }
+            if (!isBotsSpawned)
+            {
+                SpawnBots();
             }
             
             
