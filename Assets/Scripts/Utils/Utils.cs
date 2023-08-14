@@ -13,7 +13,7 @@ public static class Utils
     // Return a random position within the playfield
     public static Vector3 GetRandomSpawnPosition()
     {
-        return new Vector3(Random.Range(-GetPlayFieldSize()/2f, GetPlayFieldSize()/2f), Random.Range(-GetPlayFieldSize()/2f, GetPlayFieldSize()/2f),0)*0.9f;
+        return new Vector3(Random.Range(-GetPlayFieldSize()/2f, GetPlayFieldSize()/2f), 0.25f,Random.Range(-GetPlayFieldSize()/2f, GetPlayFieldSize()/2f))*0.9f;
         
     }
 
