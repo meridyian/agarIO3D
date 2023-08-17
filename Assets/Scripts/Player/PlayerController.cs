@@ -19,7 +19,7 @@ public class PlayerController : NetworkBehaviour
     private Vector2 moveInput;
     private Vector3 m_movement;
     private Transform cameraMainTransform;
-    public float speed = 5f;
+    public float speed = 0.4f;
     private GameObject aiTarget;
     [SerializeField] List<GameObject> aiTargets;
     [SerializeField] private LayerMask foodLayermask;
@@ -30,9 +30,9 @@ public class PlayerController : NetworkBehaviour
 
     void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = transform.GetChild(2).GetComponent<Rigidbody>();
         localCamera = GetComponentInChildren<CinemachineFreeLook>();
-        playerBody = transform.GetChild(0).transform.gameObject;
+        playerBody = transform.GetChild(2).transform.gameObject;
         actions = new PlayerControl();
     }
 
@@ -54,6 +54,7 @@ public class PlayerController : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        /*
         if (_playerStateController.isBot)
         {
             //transform.GetComponentInChildren<SphereCollider>().radius = 5f;
@@ -84,8 +85,9 @@ public class PlayerController : NetworkBehaviour
                 rb.AddForce(m_movement * 25f);
                 // rb.AddForce(m_movement * 100f);
             }
+            
         }
-
+        */
         //only move own player
         if (Object.HasStateAuthority)
         {
@@ -112,7 +114,7 @@ public class PlayerController : NetworkBehaviour
 
 
             m_movement.Set(moveInput.x, 0f, moveInput.y);
-            //m_movement = cameraMainTransform.forward * m_movement.z + cameraMainTransform.right * m_movement.x;
+            m_movement = cameraMainTransform.forward * m_movement.z + cameraMainTransform.right * m_movement.x;
             m_movement.y = 0f;
             rb.AddForce(m_movement * speed);
 

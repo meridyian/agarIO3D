@@ -3,16 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using Unity.VisualScripting;
 
 public class PlayerStateController : NetworkBehaviour
 {
-    
+    /*
     [Networked(OnChanged = nameof(OnSizeChanged))]
     private ushort size { get; set; }
+    */
     private GameObject playerBody;
     private Rigidbody rb;
     public bool isBot;
     public static PlayerStateController Instance;
+    
+    // attributes for collision
+    [SerializeField] private Collider[] playerHitColliders;
+    [SerializeField] private LayerMask collisionLayermask;
+    [SerializeField] private List<GameObject> collidedGoList;
 
     void Awake()
     {
@@ -34,10 +41,57 @@ public class PlayerStateController : NetworkBehaviour
 
        
     }
+
+    public override void FixedUpdateNetwork()
+    {
+        Runner.GetPhysicsScene().OverlapSphere(transform.position, transform.localScale.magnitude + 0.2f,
+            playerHitColliders, collisionLayermask, QueryTriggerInteraction.UseGlobal);
+        collidedGoList = new List<GameObject>();
+
+        foreach (Collider col in playerHitColliders)
+        {
+            if (col.CompareTag("Obstacle"))
+            {
+                // Split sphere into 5 different pieces 
+                //col.transform.position = Utils.GetRandomSpawnPosition();
+                Debug.Log("collided with obstacle");
+            }
+            /*
+            else if (col.CompareTag("Food"))
+            {
+                //increase size 
+                // static mi olsa 
+                col.transform.position = Utils.GetRandomSpawnPosition();
+            }
+
+            else
+            {
+                if (transform.localScale.magnitude > col.transform.localScale.magnitude)
+                {
+                    Vector3 dirToPlayer = (transform.position - col.transform.position).normalized;
+                    col.GetComponent<Rigidbody>().AddForce(dirToPlayer, ForceMode.Impulse);
+                    // increaase size
+                    // setActive false collided object
+                }
+                
+                else if(transform.parent.GetComponent<PlayerController>())
+                {
+                    // game over
+                }
+            }
+            */
+        }
+
+
+
+
+    }
+    
+    
     
     public void Reset()
     {
-        size = 1;
+        //size = 1;
     }
     
     public static void OnSizeChanged(Changed<PlayerStateController> changed)
@@ -68,7 +122,7 @@ public class PlayerStateController : NetworkBehaviour
 
     public void UpdateSize()
     {
-        playerBody.transform.localScale = Vector3.one + Vector3.one * 100 * (size/65535f);
+        //playerBody.transform.localScale = Vector3.one + Vector3.one * 100 * (size/65535f);
     }
     
 }

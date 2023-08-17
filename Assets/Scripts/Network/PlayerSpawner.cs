@@ -6,32 +6,48 @@ using UnityEngine;
 
 public class PlayerSpawner : SimulationBehaviour, ISpawned
 {
-    [SerializeField]  GameObject _playerPrefab;
-
+    
+    // Class to be used for spawning objects in scene
+    
+    // prefabs to be spawned
+    [SerializeField] private GameObject _playerPrefab;
+    //[SerializeField] private GameObject _playerBody;
     [SerializeField] private GameObject foodPrefab;
+    
+    // bot attributes
+    private const int desiredNumberOfPlayers = 5;
+    
+    // control attributes, make them networked
     private bool isFoodSpawned = false;
     private bool isBotsSpawned = false;
-
-    private const int desiredNumberOfPlayers = 30;
-
+    
+    // lsit to hold spawned bots
     private List<NetworkObject> botsList = new List<NetworkObject>();
 
 
 
+    // spawn 100 foods, you can make them static
+    
      void SpawnFood()
      {
-         for (int i = 0; i < 300; i++)
+         for (int i = 0; i < 100; i++)
          {
+             // belki bi ana gameObject altına atarsın?
              NetworkObject spawnedFood = Runner.Spawn(foodPrefab, Utils.GetRandomSpawnPosition(), Quaternion.identity);
              spawnedFood.transform.position = Utils.GetRandomSpawnPosition();
          }
 
          isFoodSpawned = true;
      }
+     
 
+     // check how many players exist, if there isn't enough players and bots then spawn a bot
+     // burda anlamadığım şey _playerPrefab kısmındaki prefab aslınd sadece bodysi olmiycak mı? çünkü movement input almiycak 
+     /*
+     
      void SpawnBots()
      {
-         // check how many players there are, if there isn't enough players and bots then spawn a new one
+         
          if (Runner.SessionInfo.PlayerCount < desiredNumberOfPlayers + botsList.Count)
          {
              int numberOfBotsToSpawn = desiredNumberOfPlayers - Runner.SessionInfo.PlayerCount - botsList.Count;
@@ -54,6 +70,7 @@ public class PlayerSpawner : SimulationBehaviour, ISpawned
      {
          networkObject.GetComponent<PlayerStateController>().isBot = true;
      }
+     */
      
 
     public void Spawned()
@@ -72,12 +89,13 @@ public class PlayerSpawner : SimulationBehaviour, ISpawned
             {
                 SpawnFood();
             }
+            /*
             if (!isBotsSpawned)
             {
                 SpawnBots();
             }
-            
-            
+            */
+
         }
     }
 
