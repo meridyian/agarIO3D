@@ -6,20 +6,33 @@ using UnityEngine;
 
 public class PlayerSpawner : SimulationBehaviour, ISpawned
 {
+<<<<<<< HEAD
     [SerializeField]  GameObject _playerPrefab;
     [SerializeField] private GameObject foodPrefab;
     
     
+=======
+    
+    // Class to be used for spawning objects in scene
+    
+    // prefabs to be spawned
+    [SerializeField] private GameObject _playerPrefab;
+    //[SerializeField] private GameObject _playerBody;
+    [SerializeField] private GameObject foodPrefab;
+    
+    // bot attributes
+    private const int desiredNumberOfPlayers = 5;
+    
+    // control attributes, make them networked
+>>>>>>> f311ca223b336d1407be5395610d94d4ace67d1f
     private bool isFoodSpawned = false;
     private bool isBotsSpawned = false;
-    private bool isObstacleSpawned = false;
-
-    private const int desiredNumberOfPlayers = 30;
-
+    
+    // lsit to hold spawned bots
     private List<NetworkObject> botsList = new List<NetworkObject>();
-    [SerializeField] GameObject obstaclePrefab;
 
 
+<<<<<<< HEAD
     public void SpawnPlayer(PlayerRef player)
     {
         if (player == Runner.LocalPlayer)
@@ -48,18 +61,35 @@ public class PlayerSpawner : SimulationBehaviour, ISpawned
      void SpawnFood()
      {
          for (int i = 0; i < 30; i++)
+=======
+
+    // spawn 100 foods, you can make them static
+    
+     void SpawnFood()
+     {
+         for (int i = 0; i < 100; i++)
+>>>>>>> f311ca223b336d1407be5395610d94d4ace67d1f
          {
+             // belki bi ana gameObject altına atarsın?
              NetworkObject spawnedFood = Runner.Spawn(foodPrefab, Utils.GetRandomSpawnPosition(), Quaternion.identity);
              spawnedFood.transform.position = Utils.GetRandomSpawnPosition();
          }
 
          isFoodSpawned = true;
      }
+     
 
+<<<<<<< HEAD
      /**
+=======
+     // check how many players exist, if there isn't enough players and bots then spawn a bot
+     // burda anlamadığım şey _playerPrefab kısmındaki prefab aslınd sadece bodysi olmiycak mı? çünkü movement input almiycak 
+     /*
+     
+>>>>>>> f311ca223b336d1407be5395610d94d4ace67d1f
      void SpawnBots()
      {
-         // check how many players there are, if there isn't enough players and bots then spawn a new one
+         
          if (Runner.SessionInfo.PlayerCount < desiredNumberOfPlayers + botsList.Count)
          {
              int numberOfBotsToSpawn = desiredNumberOfPlayers - Runner.SessionInfo.PlayerCount - botsList.Count;
@@ -68,9 +98,7 @@ public class PlayerSpawner : SimulationBehaviour, ISpawned
              {
                  NetworkObject spawnedAIPlayer = Runner.Spawn(_playerPrefab, Utils.GetRandomSpawnPosition(),
                      Quaternion.identity, null, InitializeBotBeforeSpawn);
-                 spawnedAIPlayer.transform.GetChild(0).GetComponent<SphereCollider>().radius = 0.5f;
-                 spawnedAIPlayer.transform.GetChild(0).transform.localScale = Vector3.one * 0.5f;
-                 spawnedAIPlayer.transform.GetChild(0).tag = "Bot";
+
                  //spawnedAIPlayer.BotJoinGame;
                  
                  botsList.Add(spawnedAIPlayer);
@@ -85,13 +113,7 @@ public class PlayerSpawner : SimulationBehaviour, ISpawned
      {
          networkObject.GetComponent<PlayerStateController>().isBot = true;
      }
-
-
-     private void SpawnObstacle()
-     {
-         NetworkObject spawnedObstacle = Runner.Spawn(obstaclePrefab, new Vector3(1, 0.5f,0), Quaternion.identity);
-         isObstacleSpawned = true;
-     }
+     */
      
 
     public void Spawned()
@@ -100,7 +122,25 @@ public class PlayerSpawner : SimulationBehaviour, ISpawned
     }
 
     
-   
+    public void SpawnPlayer(PlayerRef player)
+    {
+        if (player == Runner.LocalPlayer)
+        {
+            Runner.Spawn(_playerPrefab, new Vector3(0,0.5f,0), Quaternion.identity, player);
+            
+            if (!isFoodSpawned)
+            {
+                SpawnFood();
+            }
+            /*
+            if (!isBotsSpawned)
+            {
+                SpawnBots();
+            }
+            */
+
+        }
+    }
 
   
    

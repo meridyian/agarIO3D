@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: f14a6cf00832a534c9cfec6b3f22ee24
+=======
+guid: f8b120c38bf964baeb1532311752cdc9
+>>>>>>> f311ca223b336d1407be5395610d94d4ace67d1f
 labels:
 - FusionPrefab
 PrefabImporter:
