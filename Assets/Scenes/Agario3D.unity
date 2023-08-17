@@ -296,6 +296,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerPrefab: {fileID: 1766837226971564568, guid: b6844a75bad904f4c8c01dda55e1ec85, type: 3}
   foodPrefab: {fileID: 6323091753617163244, guid: 293de11724974ff4e99093f7f8876ee8, type: 3}
+  obstaclePrefab: {fileID: 1949472426550151997, guid: 4f2786c07c6c4c24b9a6701c3ab273c0, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

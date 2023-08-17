@@ -8,7 +8,7 @@ public class PlayerStateController : NetworkBehaviour
 {
     
     [Networked(OnChanged = nameof(OnSizeChanged))]
-    private ushort size { get; set; }
+    private float size { get; set; }
     private GameObject playerBody;
     private Rigidbody rb;
     public bool isBot;
@@ -29,15 +29,36 @@ public class PlayerStateController : NetworkBehaviour
         if (Object.HasInputAuthority)
         {
             Reset();
-            UpdateSize();
         }
 
        
     }
-    
+
+    public void OnCollisionEnter(Collision other)
+    {
+        
+        if (other.gameObject.CompareTag("Food"))
+        {
+            other.transform.position = Utils.GetRandomSpawnPosition();
+            UpdateSize();
+            Debug.Log("collided with food");
+        }
+        
+        /*-
+        
+        if(other.gameObject.CompareTag("Obstacle"))
+        {
+            var gameobject = Instantiate(playerBody, transform);
+
+        }
+        */
+
+    }
+
     public void Reset()
     {
-        size = 1;
+        
+        size = 1f;
     }
     
     public static void OnSizeChanged(Changed<PlayerStateController> changed)
@@ -59,16 +80,13 @@ public class PlayerStateController : NetworkBehaviour
     }
 
     
-    public void OnCollectFood(ushort growSize)
-    {
-        size += growSize;
-        UpdateSize();
-    }
+    
      */
+    
 
     public void UpdateSize()
     {
-        playerBody.transform.localScale = Vector3.one + Vector3.one * 100 * (size/65535f);
+        playerBody.transform.localScale +=  Vector3.one * 10 * (1/100f);
     }
     
 }

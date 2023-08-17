@@ -11,13 +11,37 @@ public class PlayerSpawner : SimulationBehaviour, ISpawned
     [SerializeField] private GameObject foodPrefab;
     private bool isFoodSpawned = false;
     private bool isBotsSpawned = false;
+    private bool isObstacleSpawned = false;
 
     private const int desiredNumberOfPlayers = 30;
 
     private List<NetworkObject> botsList = new List<NetworkObject>();
+    [SerializeField] GameObject obstaclePrefab;
 
 
-
+    public void SpawnPlayer(PlayerRef player)
+    {
+        if (player == Runner.LocalPlayer)
+        {
+            NetworkObject playerBall = Runner.Spawn(_playerPrefab, new Vector3(0,0.5f,0), Quaternion.identity, player);
+            playerBall.transform.GetChild(0).tag = "Player";
+            
+            if (!isFoodSpawned)
+            {
+                SpawnFood();
+            }
+            if (!isBotsSpawned)
+            {
+                SpawnBots();
+            }
+            if (!isObstacleSpawned)
+            {
+                SpawnObstacle();
+            }
+            
+            
+        }
+    }
      void SpawnFood()
      {
          for (int i = 0; i < 300; i++)
@@ -40,7 +64,9 @@ public class PlayerSpawner : SimulationBehaviour, ISpawned
              {
                  NetworkObject spawnedAIPlayer = Runner.Spawn(_playerPrefab, Utils.GetRandomSpawnPosition(),
                      Quaternion.identity, null, InitializeBotBeforeSpawn);
-
+                 spawnedAIPlayer.transform.GetChild(0).GetComponent<SphereCollider>().radius = 0.5f;
+                 spawnedAIPlayer.transform.GetChild(0).transform.localScale = Vector3.one * 0.5f;
+                 spawnedAIPlayer.transform.GetChild(0).tag = "Bot";
                  //spawnedAIPlayer.BotJoinGame;
                  
                  botsList.Add(spawnedAIPlayer);
@@ -54,6 +80,13 @@ public class PlayerSpawner : SimulationBehaviour, ISpawned
      {
          networkObject.GetComponent<PlayerStateController>().isBot = true;
      }
+
+
+     private void SpawnObstacle()
+     {
+         NetworkObject spawnedObstacle = Runner.Spawn(obstaclePrefab, new Vector3(1, 0.5f,0), Quaternion.identity);
+         isObstacleSpawned = true;
+     }
      
 
     public void Spawned()
@@ -62,24 +95,7 @@ public class PlayerSpawner : SimulationBehaviour, ISpawned
     }
 
     
-    public void SpawnPlayer(PlayerRef player)
-    {
-        if (player == Runner.LocalPlayer)
-        {
-            Runner.Spawn(_playerPrefab, new Vector3(0,0.5f,0), Quaternion.identity, player);
-            
-            if (!isFoodSpawned)
-            {
-                SpawnFood();
-            }
-            if (!isBotsSpawned)
-            {
-                SpawnBots();
-            }
-            
-            
-        }
-    }
+   
 
   
    
