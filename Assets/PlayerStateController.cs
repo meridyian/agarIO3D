@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using UnityEditor.Experimental.GraphView;
 
 public class PlayerStateController : NetworkBehaviour
 {
@@ -13,6 +14,11 @@ public class PlayerStateController : NetworkBehaviour
     private Rigidbody rb;
     public bool isBot;
     public static PlayerStateController Instance;
+
+
+    [SerializeField] private Collider[] playerHitColliders;
+    [SerializeField] private LayerMask collisionLayerMask;
+    [SerializeField] private List<GameObject> collidedGoList;
 
     void Awake()
     {
@@ -34,25 +40,20 @@ public class PlayerStateController : NetworkBehaviour
        
     }
 
-    public void OnCollisionEnter(Collision other)
+    public void FixedUpdateNetwork()
     {
-        
-        if (other.gameObject.CompareTag("Food"))
-        {
-            other.transform.position = Utils.GetRandomSpawnPosition();
-            UpdateSize();
-            Debug.Log("collided with food");
-        }
-        
-        /*-
-        
-        if(other.gameObject.CompareTag("Obstacle"))
-        {
-            var gameobject = Instantiate(playerBody, transform);
+        Runner.GetPhysicsScene().OverlapSphere(transform.position, transform.localScale.magnitude + 0.2f,
+            playerHitColliders, collisionLayerMask, QueryTriggerInteraction.UseGlobal);
+        collidedGoList = new List<GameObject>();
 
+        foreach (Collider col in playerHitColliders)
+        {
+            if (col.transform.CompareTag("Obstacle"))
+            {
+                Debug.Log("collided with obstacle " +
+                          "");
+            }
         }
-        */
-
     }
 
     public void Reset()

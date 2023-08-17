@@ -7,8 +7,9 @@ using UnityEngine;
 public class PlayerSpawner : SimulationBehaviour, ISpawned
 {
     [SerializeField]  GameObject _playerPrefab;
-
     [SerializeField] private GameObject foodPrefab;
+    
+    
     private bool isFoodSpawned = false;
     private bool isBotsSpawned = false;
     private bool isObstacleSpawned = false;
@@ -30,6 +31,7 @@ public class PlayerSpawner : SimulationBehaviour, ISpawned
             {
                 SpawnFood();
             }
+            /*
             if (!isBotsSpawned)
             {
                 SpawnBots();
@@ -38,13 +40,14 @@ public class PlayerSpawner : SimulationBehaviour, ISpawned
             {
                 SpawnObstacle();
             }
+            */
             
             
         }
     }
      void SpawnFood()
      {
-         for (int i = 0; i < 300; i++)
+         for (int i = 0; i < 30; i++)
          {
              NetworkObject spawnedFood = Runner.Spawn(foodPrefab, Utils.GetRandomSpawnPosition(), Quaternion.identity);
              spawnedFood.transform.position = Utils.GetRandomSpawnPosition();
@@ -53,6 +56,7 @@ public class PlayerSpawner : SimulationBehaviour, ISpawned
          isFoodSpawned = true;
      }
 
+     /**
      void SpawnBots()
      {
          // check how many players there are, if there isn't enough players and bots then spawn a new one
@@ -75,6 +79,7 @@ public class PlayerSpawner : SimulationBehaviour, ISpawned
 
          isBotsSpawned = true;
      }
+     */
 
      private void InitializeBotBeforeSpawn(NetworkRunner runner, NetworkObject networkObject)
      {
